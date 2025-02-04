@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/styles/styles2.css">
+</head>
+<body>
+    <div class="admin-dashboard">
+        <h1>Admin Dashboard</h1>
+
+        <!-- List of Sports -->
+        <div class="sports-list">
+            <h2>Available Sports</h2>
+            <ul>
+              <% if (sports && sports.length > 0) { %>
+                <% sports.forEach(function(sport) { %>
+                  <li>
+                    <!-- Sport Details Table -->
+                    <table class="sport-table">
+                        <tr>
+                            <th>Sport Name</th>
+                            <td><strong><%= sport.name %></strong></td>
+                        </tr>
+                        <tr>
+                            <th>Place</th>
+                            <td><%= sport.place || 'N/A' %></td>
+                        </tr>
+                        <tr>
+                            <th>Date</th>
+                            <td><%= sport.date || 'N/A' %></td>
+                        </tr>
+                        <tr>
+                            <th>Timings</th>
+                            <td><%= sport.timings || 'N/A' %></td>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td><%= sport.description || 'N/A' %></td>
+                        </tr>
+                    </table>
+                    
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <a href="/auth/admin-dashboard/update-sport/<%= sport.sport_id %>" class="update-btn">Update</a>
+                        <form action="/auth/admin-dashboard/delete-sport" method="POST" style="display:inline;">
+                            <input type="hidden" name="sportId" value="<%= sport.sport_id %>">
+                            <button type="submit" class="delete-btn">Delete</button>
+                        </form>
+                    </div>
+                </li>
+                <% }); %>
+              <% } else { %>
+                <p>No sports available.</p>
+              <% } %>
+            </ul>
+            <a href="/auth/admin-dashboard/add-sport" class="add-sport-link">Add New Sport</a>            
+
+        </div>
+    </div>
+</body>
+</html>

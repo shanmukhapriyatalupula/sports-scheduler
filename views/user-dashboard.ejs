@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('/images/user-dashboard.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: auto;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            color: #333;
+            border-radius: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sports Dashboard</h1>
+
+        <% if (successMessage) { %>
+            <p style="color: #28a745; font-weight: bold;"><%= successMessage %></p>
+        <% } %>
+
+        <h2>Available Sports</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+            <% sports.forEach(sport => { %>
+            <tr>
+                <td><%= sport.name %></td>
+                <td><%= sport.description %></td>
+                <td>
+                    <form action="/api/user/user-dashboard/book-session" method="POST">
+                        <input type="hidden" name="sportId" value="<%= sport.sport_id %>">
+                        <input type="hidden" name="place" value="<%= sport.place %>">
+                        <input type="hidden" name="date" value="<%= sport.session_date %>">
+                        <input type="hidden" name="timings" value="<%= sport.timings %>">
+                        <input type="hidden" name="description" value="<%= sport.description %>">
+                        <button type="submit">Book Session</button>
+                    </form>
+                    
+                </td>
+            </tr>
+            <% }); %>
+        </table>
+
+        <% if (sessionDetails) { %>
+            <h2>Your Booked Session</h2>
+            <p><strong>Sport:</strong> <%= sessionDetails.sport_name || 'N/A' %></p>
+            <p><strong>Place:</strong> <%= sessionDetails.place || 'N/A' %></p>
+            <p><strong>Date:</strong> <%= sessionDetails.date || 'N/A' %></p>
+            <p><strong>Timings:</strong> <%= sessionDetails.timings || 'N/A' %></p>
+            <p><strong>Description:</strong> <%= sessionDetails.sport_description || 'N/A' %></p>
+        <% } else { %>
+            <p>You have not booked any sessions yet.</p>
+        <% } %>
+        
+    </div>
+</body>
+</html>
